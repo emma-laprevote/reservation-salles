@@ -17,9 +17,7 @@ abstract class model {
         $count = $bdd->prepare("SELECT COUNT(*) FROM {$this->table} WHERE login = :login");
          $count->execute(['login' => $login]);
 
-        
         return($item = $count->fetch()[0]);
-
     }
 
     /**
@@ -29,11 +27,17 @@ abstract class model {
     public function verifPassword(string $login)
     {
         $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
-        $count = $bdd->prepare("SELECT password FROM {$this->table} WHERE login = '$login'");
+        $count = $bdd->prepare("SELECT id, password FROM {$this->table} WHERE login = '$login'");
         $count->execute();
 
         $item = $count->fetch();
 
         return $item;
     }
+
+
+
+
+
+    
 }

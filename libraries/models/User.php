@@ -13,8 +13,9 @@ class user extends model {
     /**
      * Function qui permet d'insérer un nouvelle utilisateur
      * @param string $login, $password, $confirm_password
+     * @return void 
      */
-    public function insert(string $login, string $password, string $confirm_password)
+    public function insert(string $login, string $password, string $confirm_password): void
     {
         $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
             //requete afin d'insérer les valeurs du formulaire dans ma base donnée, utilisatiin de bindvalue + sécurité
@@ -28,8 +29,9 @@ class user extends model {
     /**
      * Fonction qui permet à l'utilisateur de se connecter, on sélectionne toute les informations dans la base de donnée et on les affectes aux attributs
      * @param string $login string $password
+     * @return void
      */
-    public function connect(string $login, string $password)
+    public function connect(string $login, string $password): void
     {
         
         $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
@@ -47,8 +49,9 @@ class user extends model {
     /**
      * Function qui permet de modifié les informations dans la base de donnée
      * @param string $login string $password, string $confirm_password
+     * @return void
      */
-    public function update (string $login, string $password, string $confirm_password)
+    public function update (string $login, string $password, string $confirm_password): void
     {
         $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
 
@@ -58,6 +61,26 @@ class user extends model {
         $sth->bindValue(':password', $password, \PDO::PARAM_STR);
         $sth->execute()or die(print_r($sth->errorInfo()));;
         
+    }
+
+    /**
+     * Fonction qui permet d'inserer dans la table reservation dans la base de donnée
+     * @param string $titre, $description, $debut, $fin 
+     * @return void
+     */
+    public function insertReservation(string $titre, string $description, string $debut, string $fin): void
+    {
+       
+        $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
+
+        //requete afin d'insérer les valeurs du formulaire dans ma base donnée, utilisatiin de bindvalue + sécurité
+        $request = $bdd->prepare('INSERT INTO reservations (titre, description, debut, fin, id_utilisateur) VALUES(:titre, :description, :debut, :fin, :id_utilisateur)');
+        $request->bindValue(':titre', $titre, \PDO::PARAM_STR);
+        $request->bindValue(':description', $description, \PDO::PARAM_STR);
+        $request->bindValue(':debut', $debut, \PDO::PARAM_STR);
+        $request->bindValue(':fin', $fin, \PDO::PARAM_STR);
+        $request->bindValue(':id_utilisateur', $this->id, \PDO::PARAM_INT);
+        $request->execute()or die(print_r($request->errorInfo()));
     }
 
 

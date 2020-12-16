@@ -37,7 +37,7 @@
                         $_SESSION['user'] = $signUp;
                     }
                     
-                    header('Location: ../reservation-salles/profil.php');
+                    header('Location: ../reservation-salles/reservation-form.php');
                 }
                 
 
