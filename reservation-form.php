@@ -22,12 +22,12 @@
                 <br>
                 <div class="inputDiv">
                     <label for="fin">Veuillez choisir une date et une heure de début:</label>
-                    <input id="fin" type="datetime-local" name="debut" min="T08:00" max="T16:30">
+                    <input id="fin" type="datetime-local" name="debut" min="T08:00" max="T19:00">
                 </div>
                 <br>
                 <div class="inputDiv">
                     <label for="fin">Veuillez choisir une date et une heure de fin:</label>
-                    <input id="fin" type="datetime-local" name="fin" min="T08:00" max="T16:30">
+                    <input id="fin" type="datetime-local" name="fin" min="T08:00" max="T19:00">
                 </div>
                 <br>
                 <input id="button" type="submit" name="envoyer" value="Envoyer" />
@@ -41,7 +41,6 @@
 
             if(isset($_SESSION['user']) && isset($_POST['envoyer'])) 
             {
-                
                 $signUp->insertReserve();
 
                 header('Location: ../reservation-salles/connexion.php');

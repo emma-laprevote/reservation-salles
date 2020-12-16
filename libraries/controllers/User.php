@@ -2,6 +2,8 @@
 
 namespace Controllers;
 
+use DateTime;
+
 require_once('libraries/autoload.php');
 
 class user extends controller {
@@ -114,6 +116,8 @@ class user extends controller {
 
     public function insertReserve()
     {
+        $debut = strftime("%d,%m,%Y,%H:%M");
+        $fin = strftime("%d,%m,%Y,%H:%M");
     
             if (!empty($_POST['titre']) && ($_POST['description']) && ($_POST['debut']) && ($_POST['fin'])) 
             {
@@ -126,7 +130,6 @@ class user extends controller {
             {
                 die("Votre formulaire a été mal rempli !");
             }
-
 
             $this->model->insertReservation($titre, $description, $debut, $fin);
            
