@@ -1,12 +1,10 @@
 <?php
 
-namespace models;
+namespace Models;
 
-class user extends model {
+class user {
 
-    protected $table = "utilisateurs";
-
-    protected $id;
+    private $id;
     public $login;
     public $password;
 
@@ -24,7 +22,11 @@ class user extends model {
             $request->bindValue(':password', $password, \PDO::PARAM_STR);
             $request->execute()or die(print_r($request->errorInfo()));
 
-    } 
+    }
+
+    public function getId(){
+        return $this->id;
+    }
 
     /**
      * Fonction qui permet à l'utilisateur de se connecter, on sélectionne toute les informations dans la base de donnée et on les affectes aux attributs
@@ -64,25 +66,37 @@ class user extends model {
     }
 
     /**
-     * Fonction qui permet d'inserer dans la table reservation dans la base de donnée
-     * @param string $titre, $description, $debut, $fin 
-     * @return void
+     * Fonction qui permet de vérifié un utilisateurs déjà existant 
+     * @param string $login
+     * @return bool
      */
-    public function insertReservation(string $titre, string $description, string $debut, string $fin): void
+    public function find(string $login)
     {
-       
         $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
+        $count = $bdd->prepare("SELECT COUNT(*) FROM utilisateurs WHERE login = :login");
+         $count->execute(['login' => $login]);
 
-        //requete afin d'insérer les valeurs du formulaire dans ma base donnée, utilisatiin de bindvalue + sécurité
-        $request = $bdd->prepare('INSERT INTO reservations (titre, description, debut, fin, id_utilisateur) VALUES(:titre, :description, :debut, :fin, :id_utilisateur)');
-        $request->bindValue(':titre', $titre, \PDO::PARAM_STR);
-        $request->bindValue(':description', $description, \PDO::PARAM_STR);
-        $request->bindValue(':debut', $debut, \PDO::PARAM_STR);
-        $request->bindValue(':fin', $fin, \PDO::PARAM_STR);
-        $request->bindValue(':id_utilisateur', $this->id, \PDO::PARAM_INT);
-        $request->execute()or die(print_r($request->errorInfo()));
+        return($item = $count->fetch()[0]);
     }
+
+    /**
+     * Fonction qui permet de rechercher le password d'un utilisateur
+     * @param string $login
+     */
+    public function verifPassword(string $login)
+    {
+        $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
+        $count = $bdd->prepare("SELECT id, password FROM utilisateurs WHERE login = '$login'");
+        $count->execute();
+
+        $item = $count->fetch();
+
+        return $item;
+    }
+
+    
+
+    
 
 
 }
-

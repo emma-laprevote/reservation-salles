@@ -2,13 +2,17 @@
 
 namespace Controllers;
 
-use DateTime;
-
 require_once('libraries/autoload.php');
 
 class user extends controller {
 
     protected $modelName = "\models\User";
+
+
+    public function getId()
+    {
+        return($this->model->getId());
+    }
 
     public function insert()
     {
@@ -114,29 +118,9 @@ class user extends controller {
             //\Http::redirect("index.php?controller=article&task=show&id=" . $article_id);
     }
 
-    public function insertReserve()
-    {
-        $debut = strftime("%d,%m,%Y,%H:%M");
-        $fin = strftime("%d,%m,%Y,%H:%M");
     
-            if (!empty($_POST['titre']) && ($_POST['description']) && ($_POST['debut']) && ($_POST['fin'])) 
-            {
-                $titre = htmlspecialchars($_POST['titre']);
-                $description = htmlspecialchars($_POST['description']);
-                $debut = htmlspecialchars($_POST['debut']);
-                $fin = htmlspecialchars($_POST['fin']);
-                
-            } else 
-            {
-                die("Votre formulaire a été mal rempli !");
-            }
 
-            $this->model->insertReservation($titre, $description, $debut, $fin);
-           
-            // 4. Redirection vers l'article en question :
-
-            //\Http::redirect("index.php?controller=article&task=show&id=" . $article_id);
-    }
+    
 
     
 }

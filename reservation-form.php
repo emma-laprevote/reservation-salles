@@ -21,13 +21,37 @@
                 </div>
                 <br>
                 <div class="inputDiv">
-                    <label for="fin">Veuillez choisir une date et une heure de début:</label>
-                    <input id="fin" type="datetime-local" name="debut" min="T08:00" max="T19:00">
+                    <label for="debut">Veuillez choisir une date et une heure de début:</label>
+                    <input id="debut" type="date" name="debut">
+                    <select name="hourstart" id="">
+                        <?php
+                            for ($h = 8; $h < 19; $h++)
+                            { if($h < 10) {?>
+                                <option value="<?php echo $h; ?>">0<?php echo $h;?> : 00</option>
+                        <?php } else { ?>
+                                <option value="<?php echo $h; ?>"><?php echo $h;?> : 00</option>
+                            <?php
+                            }
+                            }
+                        ?>
+                    </select>
                 </div>
                 <br>
                 <div class="inputDiv">
                     <label for="fin">Veuillez choisir une date et une heure de fin:</label>
-                    <input id="fin" type="datetime-local" name="fin" min="T08:00" max="T19:00">
+                    <input id="fin" type="date" name="fin">
+                    <select name="hourend" id="">
+                        <?php
+                            for ($h = 8; $h < 19; $h++)
+                            { if($h < 10) {?>
+                                <option value="<?php echo $h; ?>">0<?php echo $h;?> : 00</option>
+                        <?php } else { ?>
+                                <option value="<?php echo $h; ?>"><?php echo $h;?> : 00</option>
+                            <?php
+                            }
+                            }
+                        ?>
+                    </select>
                 </div>
                 <br>
                 <input id="button" type="submit" name="envoyer" value="Envoyer" />
@@ -37,15 +61,15 @@
             session_start();
             $signUp = $_SESSION['user'];
 
-            var_dump($signUp);
-
             if(isset($_SESSION['user']) && isset($_POST['envoyer'])) 
             {
-                $signUp->insertReserve();
+                $resa = new \Controllers\reservation();
+                $resa->verifDate();
 
-                header('Location: ../reservation-salles/connexion.php');
+                header('Location: ../reservation-salles/reservation-form.php');
             }
-
+            
             ?>
+
 </body>
 </html>
