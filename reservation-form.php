@@ -64,7 +64,7 @@
             if(isset($_SESSION['user']) && isset($_POST['envoyer'])) 
             {
                 $resa = new \Controllers\reservation();
-                $resa->verifDate();
+                $resa->insertReserve($_SESSION['user']->getId());
 
                 header('Location: ../reservation-salles/reservation-form.php');
             }
