@@ -38,11 +38,11 @@
                 </div>
                 <br>
                 <div class="inputDiv">
-                    <label for="fin">Veuillez choisir une date et une heure de fin:</label>
+                    <label for="fin">Veuillez choisir une heure de fin:</label>
                     <input id="fin" type="date" name="fin">
                     <select name="hourend" id="">
                         <?php
-                            for ($h = 8; $h < 19; $h++)
+                            for ($h = 9; $h < 20; $h++)
                             { if($h < 10) {?>
                                 <option value="<?php echo $h; ?>">0<?php echo $h;?> : 00</option>
                         <?php } else { ?>
