@@ -1,20 +1,19 @@
 <?php
 
-namespace models;
+namespace Models;
 
-class user extends model {
+class user {
 
-    protected $table = "utilisateurs";
-
-    protected $id;
+    private $id;
     public $login;
     public $password;
 
     /**
      * Function qui permet d'insérer un nouvelle utilisateur
      * @param string $login, $password, $confirm_password
+     * @return void 
      */
-    public function insert(string $login, string $password, string $confirm_password)
+    public function insert(string $login, string $password, string $confirm_password): void
     {
         $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
             //requete afin d'insérer les valeurs du formulaire dans ma base donnée, utilisatiin de bindvalue + sécurité
@@ -23,13 +22,18 @@ class user extends model {
             $request->bindValue(':password', $password, \PDO::PARAM_STR);
             $request->execute()or die(print_r($request->errorInfo()));
 
-    } 
+    }
+
+    public function getId(){
+        return $this->id;
+    }
 
     /**
      * Fonction qui permet à l'utilisateur de se connecter, on sélectionne toute les informations dans la base de donnée et on les affectes aux attributs
      * @param string $login string $password
+     * @return void
      */
-    public function connect(string $login, string $password)
+    public function connect(string $login, string $password): void
     {
         
         $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
@@ -47,8 +51,9 @@ class user extends model {
     /**
      * Function qui permet de modifié les informations dans la base de donnée
      * @param string $login string $password, string $confirm_password
+     * @return void
      */
-    public function update (string $login, string $password, string $confirm_password)
+    public function update (string $login, string $password, string $confirm_password): void
     {
         $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
 
@@ -60,6 +65,38 @@ class user extends model {
         
     }
 
+    /**
+     * Fonction qui permet de vérifié un utilisateurs déjà existant 
+     * @param string $login
+     * @return bool
+     */
+    public function find(string $login)
+    {
+        $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
+        $count = $bdd->prepare("SELECT COUNT(*) FROM utilisateurs WHERE login = :login");
+         $count->execute(['login' => $login]);
+
+        return($item = $count->fetch()[0]);
+    }
+
+    /**
+     * Fonction qui permet de rechercher le password d'un utilisateur
+     * @param string $login
+     */
+    public function verifPassword(string $login)
+    {
+        $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
+        $count = $bdd->prepare("SELECT id, password FROM utilisateurs WHERE login = '$login'");
+        $count->execute();
+
+        $item = $count->fetch();
+
+        return $item;
+    }
+
+    
+
+    
+
 
 }
-

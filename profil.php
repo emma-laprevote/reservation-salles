@@ -39,7 +39,7 @@
                     //$signUp = new \Controllers\user();
                     $signUp->update();
                     $_SESSION['user'] = $signUp;
-                    header('Location: ../reservation-salles/reservation-form.php');
+                    header('Location: ../reservation-salles/connexion.php');
                 }
                 
 
