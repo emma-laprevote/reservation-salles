@@ -1,0 +1,15 @@
+.plantable {
+  width: 100%;
+}
+
+.plantable td {
+  border: 1px solid black;
+}
+
+.plantable th {
+  border: solid 1px black;
+  font-size: 28px;
+
+  padding-left: 0.8em;
+  height: 10%;
+}
