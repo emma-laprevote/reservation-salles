@@ -12,7 +12,7 @@ class reservation extends user {
     public function insertReservation(string $titre, string $description, string $debut, string $fin, int $id): void
     {
   
-    $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
+    $bdd = $this->getBdd();
 
     $request = $bdd->prepare('INSERT INTO reservations (titre, description, debut, fin, id_utilisateur) VALUES(:titre, :description, :debut, :fin, :id_utilisateur)');
     $request->bindValue(':titre', $titre, \PDO::PARAM_STR);
@@ -26,7 +26,7 @@ class reservation extends user {
 
     public function findHour($debutRes, $finRes)
     {
-        $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
+        $bdd = $this->getBdd();
 
         $count = $bdd->prepare("SELECT COUNT(*) FROM reservations WHERE '".$debutRes."' BETWEEN debut AND fin OR '".$finRes."' BETWEEN debut AND fin");
         $count->execute();

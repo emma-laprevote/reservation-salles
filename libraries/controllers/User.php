@@ -60,7 +60,7 @@ class user extends controller {
             $this->model->insert($login, $password, $confirm_password);
 
             // 4. Redirection 
-            \Http::redirect("../reservation-salles/connexion.php");
+            \Http::redirect("../reservation-salles/view/connexion.php");
     }
 
     /**
@@ -135,7 +135,7 @@ class user extends controller {
             $this->model->update($login, $password, $confirm_password);
 
             // 4. Redirection
-            \Http::redirect("../reservation-salles/connexion.php");
+            \Http::redirect("../reservation-salles/view/connexion.php");
     }
 
 }

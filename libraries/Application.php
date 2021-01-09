@@ -1,24 +1,26 @@
 <?php
+require('Control.php');
+require_once('../libraries/autoload.php');
 
 class Applications {
 
     public static function process() {
 
-        $controllerName = "Article";
-        $task = "index";
+    try {
+        if (isset($_GET['action'])) {
 
-        if(!empty($_GET['controller'])) {
-            $controllerName = ucfirst($_GET['controller']);
+            if ($_GET['action'] == 'accueil') {
+                    accueil();
+            }
+        
+        }else {
+            accueil();  // action par défaut
         }
 
-        if(!empty($_GET['task']))
-        {
-            $task = $_GET['task'];
-        }
-
-        $controllerName = "\Controllers\\" . $controllerName;
-
-        $controller = new $controllerName();
-        $controller->$task();
+    }catch (Exception $e) {
+            $e->getMessage();
     }
+
+    }
+
 }

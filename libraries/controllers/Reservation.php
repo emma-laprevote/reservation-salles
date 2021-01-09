@@ -62,7 +62,7 @@ class reservation extends user {
             
             // 4. Redirection vers l'article en question :
 
-            \Http::redirect("../reservation-salles/planning.php");
+            \Http::redirect("../reservation-salles/view/planning.php");
     }
 
     
