@@ -28,6 +28,10 @@ class user {
         return $this->id;
     }
 
+    public function getLogin(){
+        return $this->login;
+    }
+
     /**
      * Fonction qui permet à l'utilisateur de se connecter, on sélectionne toute les informations dans la base de donnée et on les affectes aux attributs
      * @param string $login string $password
@@ -58,7 +62,7 @@ class user {
         $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
 
          //requete afin d'insérer les valeurs du formulaire dans ma base donnée, utilisatiin de bindvalue + sécurité
-        $sth = $bdd->prepare("UPDATE utilisateurs SET login= :login, password= :password WHERE id = '$this->id' ");
+        $sth = $bdd->prepare('UPDATE utilisateurs SET login= :login, password= :password WHERE id = "'.$this->id.'" ');
         $sth->bindValue(':login', $login, \PDO::PARAM_STR);
         $sth->bindValue(':password', $password, \PDO::PARAM_STR);
         $sth->execute()or die(print_r($sth->errorInfo()));;

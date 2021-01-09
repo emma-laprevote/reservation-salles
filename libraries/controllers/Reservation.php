@@ -8,7 +8,11 @@ class reservation extends user {
 
     protected $modelName = "\models\Reservation";
 
-    public function insertReserve($id)
+    /**
+     * Permet d'inserer dans la base de donnée une réservation via un formulaire
+     * @param $id 
+     */
+    public function insertReserve(int $id)
     {   
 
             if (!empty($_POST['titre']) && ($_POST['description']) && ($_POST['debut']) && ($_POST['hourstart']) && ($_POST['fin']) && ($_POST['hourend'])) 
@@ -23,7 +27,7 @@ class reservation extends user {
                 
             } else 
             {
-                die("Votre formulaire a été mal rempli !");
+                die("<p style='color: white; padding-bottom: 2em';>"."* Votre formulaire a été mal rempli !"."</p>");
             }
             
             if($debutRes !== '6' && $debutRes !== '7')
@@ -35,7 +39,7 @@ class reservation extends user {
 
                 } else {
 
-                    die("Les réservations sont uniquement du Lundi au Vendredi");
+                    die("<p style='color: white; padding-bottom: 2em';>"."* Les réservations sont uniquement du Lundi au Vendredi"."</p>");
                 }
             }
 
@@ -44,21 +48,21 @@ class reservation extends user {
 
             if($fi != $deb)
             {
-                die("Les réservations doivent être comprises sur un jour");
+                die("<p style='color: white; padding-bottom: 2em';>"."Les réservations doivent être comprises sur un jour"."</p>");
             }
 
             $verifDispo = $this->model->findHour($debutRes, $finRes);
 
             if($verifDispo == 1)
             {
-                die("Ce créneau horaire est déjà réservé");
+                die("<p style='color: white; padding-bottom: 2em';>"."Ce créneau horaire est déjà réservé"."</p>");
             }
 
             $this->model->insertReservation($titre, $description, $debutRes, $finRes, $id);
             
             // 4. Redirection vers l'article en question :
 
-            //\Http::redirect("index.php?controller=article&task=show&id=" . $article_id);
+            \Http::redirect("../reservation-salles/planning.php");
     }
 
     
