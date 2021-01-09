@@ -1,6 +1,7 @@
 <?php
 require_once('libraries/autoload.php');
 session_start();
+$planning = new \Controllers\planning();
 $signUp = $_SESSION['user'];
 ?>
 <!DOCTYPE html>
@@ -12,10 +13,10 @@ $signUp = $_SESSION['user'];
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Le manoir</title>
 </head>
-
 <body>
 
 <header>
@@ -25,17 +26,31 @@ $signUp = $_SESSION['user'];
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <a class="navbar-brand" href="#"><img id="logomanoir" src="images/logomanoir.PNG" alt="logo le manoir"></a>
+      <a class="navbar-brand" href="index.php"><img id="logomanoir" src="images/logomanoir.PNG" alt="logo le manoir"></a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Reservation</a>
+          <a class="nav-link" href="reservation-form.php">Reservation</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Planning</a>
+          <a class="nav-link" href="planning.php">Planning</a>
         </li>
+        <?php if(!isset($_SESSION['user'])): ?>
+
+        <?php elseif(isset($_SESSION['user'])): ?>
+            <?= "<li class='nav-item'>
+        <form id='deconnect' action='index.php' method='POST'>
+          <button id='buttonDeco' class='btn btn-primary' type='submit' name='deconnexion'>Deconnexion</button>
+        </form>
+        </li>"?>
+        <?php endif; ?>
+        <?php if(isset($_POST['deconnexion'])) {
+          session_destroy();
+          header("Location: index.php");
+        }
+        ?>
       </ul>
     </div>
   <div id="iconesReseau" class="d-flex flex-row">
@@ -48,42 +63,27 @@ $signUp = $_SESSION['user'];
 </nav>
 </header>
 
-<main id="mainProfil">
+<main id="mainPlanning">
+    
+  <section id="date">
+	  <div id="titreMois" align="center">
+        <h1><?= $planning->toString(); ?> <?= $planning->getYear(); ?></h1>
+        <a href="planning.php?week=pre&jour=<?= $planning->previousWeek(); ?>"><button type="button" class="btn btn-dark">&lt</button></a>  Semaine <?= $planning->numWeeks(); ?>  <a href="planning.php?week=next&jour=<?= $planning->nextWeek(); ?>"><button type="button" class="btn btn-dark">&gt</button></a><br />
+        du <?= $planning->startWeek(); ?> au <?= $planning->endWeek(); ?>
+    </div>
+  </section>
+	<br>
 
-    <div id="form2">
-        <form id="inscription" action="profil.php" method="POST">
-            <?php if(isset($_SESSION['user'])) {
-                    echo "<h2 id='titleUser'>"."Hello"." ".$_SESSION['user']->getLogin()."</h2>";
-                } ?>
-                <legend id="legendProfil">MODIFIE TON PROFIL</legend>
-                <br>
-                <div class="mb-3">
-                    <label for="login" class="form-label">Login *</label>
-                    <input type="text" class="form-control" name="login" required placeholder="Nom d'utilisateur">
-                </div>
-                <br>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password *</label>
-                    <input type="password" class="form-control" name="password" required placeholder="Password">
-                </div>
-                <br>
-                <div class="mb-3">
-                    <label for="confirm_password" class="form-label">Confirm Password *</label>
-                    <input type="password" class="form-control" name="confirm_password" required placeholder="Password">
-                </div>
-                <div class="col-12">
-                    <button id="buttonSub" class="btn btn-primary" type="submit" name="envoyer">Envoyer</button>
-                </div>
-                <?php
-                if (isset($_SESSION['user']) && isset($_POST['envoyer']))
-                {
-                    $signUp->update();
-                    $_SESSION['user'] = $signUp;  
-                }
-                ?>
-            </form>
-        </div>
-    </main>
+	<table class="calendar__table">
+		<thead class="calendar__head">
+      <?php $planning->headTable(); ?>
+    </thead>
+    
+		<tbody class="calendar__body">
+		<?php $planning->bodyTable($signUp); ?>
+    </tbody>
+  </table>
+</main>
 
 <footer>
 <nav class="navbar bottom navbar-light bg-light">
