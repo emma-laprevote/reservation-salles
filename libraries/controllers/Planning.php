@@ -2,9 +2,9 @@
 
 namespace Controllers;
 
-require_once('libraries/autoload.php');
+require_once('../libraries/autoload.php');
 
-class planning extends user {
+class planning extends controller {
 
     protected $modelName = "\Models\Planning";
 
@@ -64,8 +64,8 @@ class planning extends user {
                 $all = $this->model->getId();
                 $eventFin = $this->model->getEventsEnd();
                 
-                
                 if(isset($event[$date])){
+
                     foreach($event as $key => $e){
                         if($key == $date){
                             echo "<li class='title'>$e</a></li>";
@@ -75,26 +75,28 @@ class planning extends user {
                         if(!empty($signUp)) {
                             foreach($all as $keyId => $i){
                                 if($keyId == $date){
-                                    echo "<a href='../reservation-salles/reservation.php?id=$i'><button id='but' type='button' class='btn btn-outline-info'>Description</button></a>";
+                                    echo "<a href='../view/reservation.php?id=$i'><button id='but' type='button' class='btn btn-outline-info'>Description</button></a>";
                                 }
                             }
                         }
-
-                    
-                }
             
-            if(isset($eventFin[$date])){
-                foreach($eventFin as $keyFin => $f){
-                    if($keyFin == $date) {
-                        echo "<div class='title'>$f</div>";
+                }
+                if(isset($eventFin[$date])){
+                    foreach($eventFin as $keyFin => $f){
+                        if($keyFin == $date) {
+                            echo "<div class='title'>$f</div>";
+                        }
                     }
                 }
-            }
-            "</td>";
-        }
-        echo "</td></tr>"; 
-    }
+                
+             
 
+            "</td>";
+                }
+        echo "</td></tr>"; 
+        
+
+    }
     }
 
     public function dayAdd()
