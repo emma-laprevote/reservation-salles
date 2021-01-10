@@ -2,7 +2,8 @@
 
 namespace Controllers;
 
-require_once('../libraries/autoload.php');
+require('../libraries/Autoloader.php');
+
 
 class reservation extends user {
 
@@ -32,37 +33,40 @@ class reservation extends user {
             
             if($debutRes !== '6' && $debutRes !== '7')
             {
-                if($finRes !== '6' && $finRes !== '7')
-                {
-                    $finRes = date('Y-m-d H:i:s', strtotime($fin));
+                if($finRes !== '6' && $finRes !== '7') {
+
+                    if($finRes == $debutRes)
+                    {
+
                     $debutRes = date('Y-m-d H:i:s', strtotime($debut));
+                    $finRes = date('Y-m-d H:i:s', strtotime($fin));
 
-                } else {
+                    } else {
 
-                    die("<p style='color: white; padding-bottom: 2em';>"."* Les réservations sont uniquement du Lundi au Vendredi"."</p>");
-                }
+                        die("<p style='color: white; padding-bottom: 2em';>"."* Les réservations sont sur un jour seulement"."</p>");
+
+                    }
+
+                } 
             }
+            else {
 
-            $deb = substr_replace($debutRes ," ",-9);
-            $fi = substr_replace($finRes ," ",-9);
+                die("<p style='color: white; padding-bottom: 2em';>"."* Les réservations sont uniquement du Lundi au Vendredi et sur un jour seulement"."</p>");
+            } 
 
-            if($fi != $deb)
-            {
-                die("<p style='color: white; padding-bottom: 2em';>"."Les réservations doivent être comprises sur un jour"."</p>");
-            }
 
             $verifDispo = $this->model->findHour($debutRes, $finRes);
 
             if($verifDispo == 1)
             {
-                die("<p style='color: white; padding-bottom: 2em';>"."Ce créneau horaire est déjà réservé"."</p>");
+                die("<p style='color: white; padding-bottom: 2em';>"."* Ce créneau horaire est déjà réservé"."</p>");
             }
 
             $this->model->insertReservation($titre, $description, $debutRes, $finRes, $id);
             
             // 4. Redirection vers l'article en question :
 
-            \Http::redirect("../reservation-salles/view/planning.php");
+            \Http::redirect("planning.php");
     }
 
     

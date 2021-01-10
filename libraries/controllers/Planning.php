@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-require_once('../libraries/autoload.php');
+require('../libraries/Autoloader.php');
 
 class planning extends controller {
 
@@ -68,18 +68,18 @@ class planning extends controller {
 
                     foreach($event as $key => $e){
                         if($key == $date){
-                            echo "<li class='title'>$e</a></li>";
+                            if(!empty($signUp)) {
+                                foreach($all as $keyId => $i){
+                                    if($keyId == $date){
+                                        echo "<a id='hov' href='../reservation-salles/reservation.php?id=$i'><div class='title'>$e</div></a>";
+                                    }
+                                }
+                            }elseif(empty($signUp)) {
+                                echo "<div class='title'>$e</div>";
+                            }
                         }
                     }
 
-                        if(!empty($signUp)) {
-                            foreach($all as $keyId => $i){
-                                if($keyId == $date){
-                                    echo "<a href='../view/reservation.php?id=$i'><button id='but' type='button' class='btn btn-outline-info'>Description</button></a>";
-                                }
-                            }
-                        }
-            
                 }
                 if(isset($eventFin[$date])){
                     foreach($eventFin as $keyFin => $f){

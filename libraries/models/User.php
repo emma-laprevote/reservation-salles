@@ -2,6 +2,8 @@
 
 namespace Models;
 
+require_once('Model.php');
+
 class user extends model {
 
     private $id;
@@ -89,7 +91,7 @@ class user extends model {
     public function verifPassword(string $login)
     {
         $bdd = $this->getBdd();
-        $count = $bdd->prepare("SELECT id, password FROM utilisateurs WHERE login = '$login'");
+        $count = $bdd->prepare("SELECT password FROM utilisateurs WHERE login = '$login'");
         $count->execute();
 
         $item = $count->fetch();
@@ -97,6 +99,12 @@ class user extends model {
         return $item;
     }
 
+    public function disconnect()
+    {
+        $this->id = null;
+        $this->login = null;
+        $this->password = null;
+    }
     
 
     
