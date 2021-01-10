@@ -2,7 +2,9 @@
 
 namespace Models;
 
-class user {
+require_once('Model.php');
+
+class user extends model {
 
     private $id;
     public $login;
@@ -15,7 +17,7 @@ class user {
      */
     public function insert(string $login, string $password, string $confirm_password): void
     {
-        $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
+            $bdd = $this->getBdd();
             //requete afin d'insérer les valeurs du formulaire dans ma base donnée, utilisatiin de bindvalue + sécurité
             $request = $bdd->prepare('INSERT INTO utilisateurs (login, password) VALUES(:login, :password)');
             $request->bindValue(':login', $login, \PDO::PARAM_STR);
@@ -40,7 +42,7 @@ class user {
     public function connect(string $login, string $password): void
     {
         
-        $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
+        $bdd = $this->getBdd();
 
             $validPass = $bdd->prepare("SELECT * FROM utilisateurs WHERE login='$login'");
             $validPass->execute();
@@ -59,8 +61,7 @@ class user {
      */
     public function update (string $login, string $password, string $confirm_password): void
     {
-        $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
-
+        $bdd = $this->getBdd();
          //requete afin d'insérer les valeurs du formulaire dans ma base donnée, utilisatiin de bindvalue + sécurité
         $sth = $bdd->prepare('UPDATE utilisateurs SET login= :login, password= :password WHERE id = "'.$this->id.'" ');
         $sth->bindValue(':login', $login, \PDO::PARAM_STR);
@@ -76,7 +77,7 @@ class user {
      */
     public function find(string $login)
     {
-        $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
+        $bdd = $this->getBdd();
         $count = $bdd->prepare("SELECT COUNT(*) FROM utilisateurs WHERE login = :login");
          $count->execute(['login' => $login]);
 
@@ -89,8 +90,8 @@ class user {
      */
     public function verifPassword(string $login)
     {
-        $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
-        $count = $bdd->prepare("SELECT id, password FROM utilisateurs WHERE login = '$login'");
+        $bdd = $this->getBdd();
+        $count = $bdd->prepare("SELECT password FROM utilisateurs WHERE login = '$login'");
         $count->execute();
 
         $item = $count->fetch();
@@ -98,6 +99,12 @@ class user {
         return $item;
     }
 
+    public function disconnect()
+    {
+        $this->id = null;
+        $this->login = null;
+        $this->password = null;
+    }
     
 
     

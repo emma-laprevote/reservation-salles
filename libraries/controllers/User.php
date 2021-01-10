@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-require_once('../libraries/autoload.php');
+require('../libraries/Autoloader.php');
 
 class user extends controller {
 
@@ -60,7 +60,7 @@ class user extends controller {
             $this->model->insert($login, $password, $confirm_password);
 
             // 4. Redirection 
-            \Http::redirect("../reservation-salles/connexion.php");
+            \Http::redirect("connexion.php");
     }
 
     /**
@@ -135,7 +135,14 @@ class user extends controller {
             $this->model->update($login, $password, $confirm_password);
 
             // 4. Redirection
-            \Http::redirect("../reservation-salles/connexion.php");
+            \Http::redirect("connexion.php");
+    }
+
+    public function disconnect() {
+
+        $this->model->disconnect();
+        session_destroy();
+        \Http::redirect("accueil.php");
     }
 
 }

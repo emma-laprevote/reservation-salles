@@ -1,5 +1,3 @@
 <?php
 
-require_once('libraries/autoload.php');
-
-Applications::process();
+header('Location: view/accueil.php');

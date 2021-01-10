@@ -8,7 +8,7 @@ class planning extends user {
     public function getId ()
     {
 
-        $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
+        $bdd = $this->getBdd();
 
         $req = $bdd->prepare("SELECT reservations.id, reservations.titre, reservations.description, reservations.debut, reservations.fin, reservations.id_utilisateur, utilisateurs.login FROM reservations INNER JOIN utilisateurs ON utilisateurs.id = reservations.id_utilisateur");
         $req->execute();
@@ -25,7 +25,7 @@ class planning extends user {
 
     public function getEvents(){
         
-        $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
+        $bdd = $this->getBdd();
 
         $req = $bdd->prepare("SELECT reservations.titre, reservations.debut, utilisateurs.login FROM reservations INNER JOIN utilisateurs ON utilisateurs.id = reservations.id_utilisateur");
         $req->execute();
@@ -42,7 +42,7 @@ class planning extends user {
 
     public function getEventsEnd(){
         
-        $bdd = new \PDO('mysql:dbname=reservationsalles;host=localhost', 'root', 'root');
+        $bdd = $this->getBdd();
 
         $req = $bdd->query("SELECT fin FROM reservations");
         $r = array();

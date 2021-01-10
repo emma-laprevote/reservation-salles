@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-require_once('../libraries/autoload.php');
+require('../libraries/Autoloader.php');
 
 class event extends planning {
 

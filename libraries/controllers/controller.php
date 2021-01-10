@@ -2,8 +2,6 @@
 
 namespace Controllers;
 
-
-
 abstract class controller 
 {
     protected $model;
